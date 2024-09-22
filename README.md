@@ -1,7 +1,7 @@
 - 👋 Hi, I’m @k1rankumarreddy
-- 👀 I’m interested in solving problems in python
-- 🌱 I’m currently learning advance tools in python
-- 💞️ I’m looking to collaborate on python projects
+- 👀 I’m interested in solving problems
+- 🌱 I’m currently learning advance technologies
+- 💞️ I’m looking to collaborate on projects
 - 📫 How to reach me kirankumarreddy.guda@gmail.com
 
 <!---
