@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wedding Invitation</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 body {
@@ -23,14 +23,12 @@ body {
     top: 0;
     width: 50%;
     height: 100%;
-    background: linear-gradient(135deg, #8b0000, #c89b3c);
+    background: linear-gradient(135deg, #7a0000, #c89b3c);
     z-index: 9999;
     transition: transform 2s ease-in-out;
 }
-
 .left { left: 0; }
 .right { right: 0; }
-
 .open-left { transform: translateX(-100%); }
 .open-right { transform: translateX(100%); }
 
@@ -38,19 +36,24 @@ body {
 .content {
     opacity: 0;
     transition: opacity 2s ease-in;
+    animation: fadeIn 2s ease forwards;
 }
 
 /* Header */
 header {
     background: linear-gradient(135deg, #c89b3c, #f4e2c6);
-    padding: 50px 20px;
+    padding: 60px 20px;
     color: #fff;
 }
 
 header h1 {
-    font-family: 'Great Vibes', cursive;
-    font-size: 50px;
-    margin: 0;
+    font-family: 'Cinzel', serif;
+    font-size: 48px;
+    letter-spacing: 2px;
+}
+
+header p {
+    font-size: 18px;
 }
 
 /* Sections */
@@ -60,18 +63,28 @@ header h1 {
     background: #fff;
     margin: 20px auto;
     padding: 25px;
-    max-width: 400px;
+    max-width: 420px;
     border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    animation: float 4s ease-in-out infinite;
 }
 
-h2 { color: #c89b3c; }
+h2 {
+    color: #c89b3c;
+}
 
 /* Countdown */
 .countdown {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: bold;
-    color: #8b0000;
+    color: #7a0000;
+}
+
+/* Invited by */
+.invited {
+    font-size: 20px;
+    font-weight: 600;
+    color: #444;
     margin-top: 10px;
 }
 
@@ -80,6 +93,25 @@ h2 { color: #c89b3c; }
     background: #c89b3c;
     color: white;
     padding: 20px;
+}
+
+/* Animations */
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ✨ Particles */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
 }
 </style>
 </head>
@@ -90,7 +122,8 @@ h2 { color: #c89b3c; }
 <div class="curtain left" id="leftCurtain"></div>
 <div class="curtain right" id="rightCurtain"></div>
 
-<!-- Content -->
+<canvas id="particles"></canvas>
+
 <div class="content" id="content">
 
 <header>
@@ -100,7 +133,7 @@ h2 { color: #c89b3c; }
 </header>
 
 <section class="section">
-    <h2>⏳ Countdown to Wedding</h2>
+    <h2>⏳ Countdown</h2>
     <div class="countdown" id="countdown"></div>
 </section>
 
@@ -122,6 +155,13 @@ h2 { color: #c89b3c; }
     </div>
 </section>
 
+<section class="section">
+    <h2>💌 Invitation</h2>
+    <div class="invited">
+        Invited by Mohammad Yousuf & Family
+    </div>
+</section>
+
 <div class="footer">
     <p>We request your presence & blessings 🙏</p>
 </div>
@@ -129,19 +169,77 @@ h2 { color: #c89b3c; }
 </div>
 
 <script>
-// 🎭 Curtain animation
+// 🎭 Curtain
 window.onload = function() {
     setTimeout(() => {
-        document.getElementById("leftCurtain").classList.add("open-left");
-        document.getElementById("rightCurtain").classList.add("open-right");
-        document.getElementById("content").style.opacity = "1";
+        leftCurtain.classList.add("open-left");
+        rightCurtain.classList.add("open-right");
+        content.style.opacity = "1";
     }, 500);
 };
 
 // ⏳ Countdown
 const weddingDate = new Date("March 28, 2026 10:30:00").getTime();
 
-setInterval(function() {
+setInterval(() => {
+    const now = new Date().getTime();
+    const d = weddingDate - now;
+
+    const days = Math.floor(d / (1000*60*60*24));
+    const hours = Math.floor((d % (1000*60*60*24))/(1000*60*60));
+    const minutes = Math.floor((d % (1000*60*60))/(1000*60));
+    const seconds = Math.floor((d % (1000*60))/1000);
+
+    countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+}, 1000);
+
+// ✨ Particles Animation
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for (let i = 0; i < 80; i++) {
+    particles.push({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height,
+        r: Math.random()*3,
+        d: Math.random()*1
+    });
+}
+
+function draw() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = "rgba(200,155,60,0.5)";
+    ctx.beginPath();
+
+    particles.forEach(p => {
+        ctx.moveTo(p.x,p.y);
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2,true);
+    });
+
+    ctx.fill();
+    update();
+}
+
+function update() {
+    particles.forEach(p => {
+        p.y += p.d;
+        if (p.y > canvas.height) {
+            p.y = 0;
+            p.x = Math.random()*canvas.width;
+        }
+    });
+}
+
+setInterval(draw, 33);
+</script>
+
+</body>
+</html>setInterval(function() {
     const now = new Date().getTime();
     const distance = weddingDate - now;
 
