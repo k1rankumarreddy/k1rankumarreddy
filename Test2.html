@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wedding Invitation</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #fff8f0;
+    color: #333;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+/* 🎭 Curtain */
+.curtain {
+    position: fixed;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(135deg, #8b0000, #c89b3c);
+    z-index: 9999;
+    transition: transform 2s ease-in-out;
+}
+
+.left { left: 0; }
+.right { right: 0; }
+
+.open-left { transform: translateX(-100%); }
+.open-right { transform: translateX(100%); }
+
+/* Content */
+.content {
+    opacity: 0;
+    transition: opacity 2s ease-in;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, #c89b3c, #f4e2c6);
+    padding: 50px 20px;
+    color: #fff;
+}
+
+header h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 50px;
+    margin: 0;
+}
+
+/* Sections */
+.section { padding: 40px 20px; }
+
+.card {
+    background: #fff;
+    margin: 20px auto;
+    padding: 25px;
+    max-width: 400px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+h2 { color: #c89b3c; }
+
+/* Countdown */
+.countdown {
+    font-size: 22px;
+    font-weight: bold;
+    color: #8b0000;
+    margin-top: 10px;
+}
+
+/* Footer */
+.footer {
+    background: #c89b3c;
+    color: white;
+    padding: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎭 Curtains -->
+<div class="curtain left" id="leftCurtain"></div>
+<div class="curtain right" id="rightCurtain"></div>
+
+<!-- Content -->
+<div class="content" id="content">
+
+<header>
+    <h1>Mohammad Ashraf</h1>
+    <p>Wedding Invitation</p>
+    <p>With Daughter of Mr. Mohammad Saleem Sahab</p>
+</header>
+
+<section class="section">
+    <h2>⏳ Countdown to Wedding</h2>
+    <div class="countdown" id="countdown"></div>
+</section>
+
+<section class="section">
+    <h2>🕌 Marriage Ceremony</h2>
+    <div class="card">
+        <p><strong>Date:</strong> 28 March 2026</p>
+        <p><strong>Nikah:</strong> 10:30 AM</p>
+        <p><strong>Venue:</strong> Bonthupalle, Karimnagar</p>
+    </div>
+</section>
+
+<section class="section">
+    <h2>🌙 Valima Ceremony</h2>
+    <div class="card">
+        <p><strong>Date:</strong> 29 March 2026</p>
+        <p><strong>Dinner:</strong> 7:30 PM</p>
+        <p><strong>Venue:</strong> Brundavan Gardens, Godavari Khani</p>
+    </div>
+</section>
+
+<div class="footer">
+    <p>We request your presence & blessings 🙏</p>
+</div>
+
+</div>
+
+<script>
+// 🎭 Curtain animation
+window.onload = function() {
+    setTimeout(() => {
+        document.getElementById("leftCurtain").classList.add("open-left");
+        document.getElementById("rightCurtain").classList.add("open-right");
+        document.getElementById("content").style.opacity = "1";
+    }, 500);
+};
+
+// ⏳ Countdown
+const weddingDate = new Date("March 28, 2026 10:30:00").getTime();
+
+setInterval(function() {
+    const now = new Date().getTime();
+    const distance = weddingDate - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("countdown").innerHTML =
+        days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+
+}, 1000);
+</script>
+
+</body>
+</html>
